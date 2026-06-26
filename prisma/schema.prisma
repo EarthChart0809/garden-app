@@ -9,5 +9,19 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
+}
+
+model GardenLog {
+  id          Int      @id @default(autoincrement())
+
+  title       String
+  content     String   @db.Text
+
+  recordDate  DateTime
+
+  imageUrl    String?
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
