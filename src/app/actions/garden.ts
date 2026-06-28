@@ -17,9 +17,7 @@ export async function createGardenLog(formData: FormData) {
   });
 
   redirect("/garden");
-  
 }
-
 
 export async function deleteGardenLog(id: number) {
   await prisma.gardenLog.delete({
@@ -29,4 +27,24 @@ export async function deleteGardenLog(id: number) {
   });
 
   redirect("/garden");
+}
+
+export async function updateGardenLog(formData: FormData) {
+  const id = Number(formData.get("id"));
+  const title = formData.get("title") as string;
+  const content = formData.get("content") as string;
+  const recordDate = formData.get("recordDate") as string;
+
+  await prisma.gardenLog.update({
+    where: {
+      id,
+    },
+    data: {
+      title,
+      content,
+      recordDate: new Date(recordDate),
+    },
+  });
+
+  redirect(`/garden/${id}`);
 }

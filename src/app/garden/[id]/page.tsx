@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { deleteGardenLog } from "@/app/actions/garden";
 import { notFound } from "next/navigation";
 import Link from "next/link";
 
