@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { UserProfile } from "@/generated/prisma";
+import { UserProfile } from "@/generated/prisma/client";
 
 export async function syncUserProfile(user: {
   id: string;

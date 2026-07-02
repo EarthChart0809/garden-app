@@ -44,6 +44,8 @@ model UserProfile {
 
   displayName String?
 
+  bio String?
+
   avatarUrl   String?
 
   role        UserRole @default(USER)

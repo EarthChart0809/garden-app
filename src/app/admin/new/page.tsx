@@ -22,6 +22,8 @@ export default function NewGardenPage() {
           />
         </div>
 
+        <input type="file" name="image" accept="image/*" />
+
         <div>
           <label>日付</label>
 

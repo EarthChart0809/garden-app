@@ -19,7 +19,7 @@ export default async function Header() {
 
           {profile ? (
             <>
-              <span>{profile?.displayName ?? profile?.email}</span>
+              <span>{profile?.displayName ?? "プロフィール未設定"}</span>
 
               <LogoutButton />
               {profile?.role === "ADMIN" && <Link href="/admin">Admin</Link>}
