@@ -2,6 +2,7 @@ import { prisma } from "@/lib/prisma";
 import { deleteGardenLog } from "@/app/actions/garden";
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import { requireAdmin } from "@/lib/authorization";
 
 type Props = {
   params: Promise<{
@@ -10,6 +11,7 @@ type Props = {
 };
 
 export default async function GardenDetail({ params }: Props) {
+  await requireAdmin();
   const { id } = await params;
 
   const log = await prisma.gardenLog.findUnique({

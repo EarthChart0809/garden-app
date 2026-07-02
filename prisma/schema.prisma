@@ -13,15 +13,44 @@ datasource db {
 }
 
 model GardenLog {
-  id          Int      @id @default(autoincrement())
+  id Int @id @default(autoincrement())
 
-  title       String
-  content     String   @db.Text
+  title String
 
-  recordDate  DateTime
+  content String
 
-  imageUrl    String?
+  recordDate DateTime
+
+  imageUrl String?
+
+  createdAt DateTime @default(now())
+
+  updatedAt DateTime @updatedAt
+
+  authorId String? @db.Uuid
+
+  author UserProfile? @relation(fields:[authorId], references:[id])
+}
+
+enum UserRole {
+  ADMIN
+  USER
+}
+
+model UserProfile {
+  id          String   @id @db.Uuid
+
+  email       String   @unique
+
+  displayName String?
+
+  avatarUrl   String?
+
+  role        UserRole @default(USER)
 
   createdAt   DateTime @default(now())
+
   updatedAt   DateTime @updatedAt
+
+  gardenLogs  GardenLog[]
 }
