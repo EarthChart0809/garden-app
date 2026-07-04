@@ -37,6 +37,7 @@ export default async function GardenPage() {
             <h2>{log.title}</h2>
             <p>{log.recordDate.toLocaleDateString()}</p>
             <p>{log.content}</p>
+            <p>🌱 {log.plantName}</p>
 
             {imageUrl && (
               <Image src={imageUrl} width={400} height={250} alt={log.title} />

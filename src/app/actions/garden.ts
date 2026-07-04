@@ -13,11 +13,13 @@ export async function createGardenLog(formData: FormData) {
   const profile = await requireAdmin();
   const image = formData.get("image") as File;
   const imagePath = await uploadGardenImage(image);
+  const plantName = formData.get("plantName")?.toString();
 
   await prisma.gardenLog.create({
     data: {
       title,
       content,
+      plantName,
       recordDate: new Date(recordDate),
       author: {
         connect: {

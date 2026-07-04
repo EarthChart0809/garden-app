@@ -21,6 +21,8 @@ model GardenLog {
 
   recordDate DateTime
 
+  plantName String?
+
   imageUrl String?
 
   createdAt DateTime @default(now())

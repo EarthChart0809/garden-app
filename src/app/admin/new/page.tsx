@@ -13,6 +13,12 @@ export default function NewGardenPage() {
         </div>
 
         <div>
+          <label>植物名</label>
+
+          <input type="text" name="plantName" required className="..." />
+        </div>
+
+        <div>
           <label>本文</label>
 
           <textarea

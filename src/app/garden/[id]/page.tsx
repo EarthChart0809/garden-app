@@ -32,6 +32,11 @@ export default async function GardenDetail({ params }: Props) {
         {log.recordDate.toLocaleDateString("ja-JP")}
       </p>
 
+      <p>
+        植物名：
+        {log.plantName}
+      </p>
+
       <article className="mt-6 whitespace-pre-wrap">{log.content}</article>
 
       <div className="mt-8">
