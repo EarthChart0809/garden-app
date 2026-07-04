@@ -1,9 +1,17 @@
 import Link from "next/link";
+import Image from "next/image";
 import { getCurrentUserProfile } from "@/lib/current-profile";
+import { createClient } from "@/lib/supabase/server";
 import LogoutButton from "@/components/LogoutButton";
 
 export default async function Header() {
   const profile = await getCurrentUserProfile();
+  const supabase = await createClient();
+
+  const avatarPublicUrl = profile?.avatarUrl
+    ? supabase.storage.from("garden-images").getPublicUrl(profile.avatarUrl)
+        .data.publicUrl
+    : null;
 
   return (
     <header className="border-b">
@@ -19,6 +27,14 @@ export default async function Header() {
 
           {profile ? (
             <>
+              {avatarPublicUrl && (
+                <Image
+                  src={avatarPublicUrl}
+                  width={40}
+                  height={40}
+                  alt={profile.displayName ?? "avatar"}
+                />
+              )}
               <span>{profile?.displayName ?? "プロフィール未設定"}</span>
 
               <LogoutButton />

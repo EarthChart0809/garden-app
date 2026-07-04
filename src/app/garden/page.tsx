@@ -19,6 +19,13 @@ export default async function GardenPage() {
       {logs.map((log) => {
         const imageUrl = log.imageUrl
           ? supabase.storage.from("garden-images").getPublicUrl(log.imageUrl)
+              .data.publicUrl
+          : null;
+
+        const avatarPublicUrl = log.author?.avatarUrl
+          ? supabase.storage
+              .from("garden-images")
+              .getPublicUrl(log.author.avatarUrl).data.publicUrl
           : null;
 
         return (
@@ -32,15 +39,20 @@ export default async function GardenPage() {
             <p>{log.content}</p>
 
             {imageUrl && (
-              <Image
-                src={imageUrl.data.publicUrl}
-                width={400}
-                height={250}
-                alt={log.title}
-              />
+              <Image src={imageUrl} width={400} height={250} alt={log.title} />
             )}
 
-            <p>投稿者：{log.author?.displayName ?? log.author?.email}</p>
+            <div className="mt-3 flex items-center gap-3">
+              {avatarPublicUrl && (
+                <Image
+                  src={avatarPublicUrl}
+                  width={40}
+                  height={40}
+                  alt={log.author?.displayName ?? "avatar"}
+                />
+              )}
+              <p>投稿者：{log.author?.displayName ?? log.author?.email}</p>
+            </div>
           </Link>
         );
       })}

@@ -1,6 +1,8 @@
 import { getCurrentUserProfile } from "@/lib/current-profile";
-import { updateProfile } from "@/app/actions/profile";
 import { redirect } from "next/navigation";
+import { updateProfile } from "@/app/actions/profile";
+import Image from "next/image";
+import { createClient } from "@/lib/supabase/server";
 
 export default async function ProfilePage() {
   const profile = await getCurrentUserProfile();
@@ -9,11 +11,32 @@ export default async function ProfilePage() {
     redirect("/login");
   }
 
+  const supabase = await createClient();
+  const avatarPublicUrl = profile.avatarUrl
+    ? supabase.storage.from("garden-images").getPublicUrl(profile.avatarUrl)
+        .data.publicUrl
+    : null;
+
   return (
     <main className="mx-auto max-w-3xl p-8">
       <h1 className="mb-8 text-3xl font-bold">プロフィール</h1>
 
       <form action={updateProfile} className="space-y-6">
+        <div>
+          <label>プロフィール画像</label>
+
+          <input type="file" name="avatar" accept="image/*" />
+
+          {avatarPublicUrl && (
+            <Image
+              src={avatarPublicUrl}
+              width={150}
+              height={150}
+              alt="avatar"
+            />
+          )}
+        </div>
+
         {/* 表示名 */}
         <div>
           <label htmlFor="displayName" className="mb-2 block font-medium">
@@ -57,7 +80,7 @@ export default async function ProfilePage() {
           />
         </div>
 
-        {/* 権限
+        {/* 権限 */}
         <div>
           <label className="mb-2 block font-medium">権限</label>
 
@@ -66,7 +89,7 @@ export default async function ProfilePage() {
             disabled
             className="w-full rounded border bg-gray-100 p-3"
           />
-        </div> */}
+        </div>
 
         <button
           type="submit"
