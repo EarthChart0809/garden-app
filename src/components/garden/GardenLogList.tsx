@@ -12,17 +12,34 @@ type Props = {
 
 export default function GardenLogList({ logs }: Props) {
   if (logs.length === 0) {
-    return <p className="mt-6 text-gray-500">この日の記録はありません。</p>;
+    return (
+      <div className="garden-card mt-6 p-6 text-[var(--muted)]">
+        この日の記録はありません。
+      </div>
+    );
   }
 
   return (
-    <div className="mt-6 space-y-4">
+    <div className="mt-6 grid gap-5">
       {logs.map((log) => (
-        <div key={log.id} className="rounded-lg border p-4 shadow-sm">
-          <p className="text-sm text-green-700">🌱 {log.plantName}</p>
-          <h2 className="text-xl font-semibold">{log.title}</h2>
-          <p className="mt-2 whitespace-pre-wrap">{log.content}</p>
-        </div>
+        <article key={log.id} className="garden-card p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <span className="garden-badge">
+              🌱 {log.plantName ?? "植物名未設定"}
+            </span>
+            <time className="text-sm text-[var(--muted)]">
+              {log.recordDate.toLocaleDateString("ja-JP")}
+            </time>
+          </div>
+
+          <h2 className="mt-4 text-xl font-bold text-[var(--primary)]">
+            {log.title}
+          </h2>
+
+          <p className="mt-3 leading-7 whitespace-pre-wrap text-[var(--foreground)]">
+            {log.content}
+          </p>
+        </article>
       ))}
     </div>
   );

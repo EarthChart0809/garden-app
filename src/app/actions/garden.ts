@@ -74,6 +74,7 @@ export async function updateGardenLog(formData: FormData) {
   const title = formData.get("title") as string;
   const content = formData.get("content") as string;
   const recordDate = formData.get("recordDate") as string;
+  const plantName = formData.get("plantName")?.toString();
 
   await prisma.gardenLog.update({
     where: {
@@ -83,6 +84,7 @@ export async function updateGardenLog(formData: FormData) {
       title,
       content,
       recordDate: new Date(recordDate),
+      plantName,
     },
   });
 

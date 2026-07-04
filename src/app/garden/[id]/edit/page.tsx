@@ -17,53 +17,55 @@ export default async function EditPage({ params }: Props) {
     },
   });
 
-  if (!log) {
-    notFound();
-  }
+  if (!log) notFound();
 
   return (
-    <main className="mx-auto max-w-xl p-6">
-      <h1 className="mb-6 text-3xl font-bold">編集</h1>
+    <main className="mx-auto max-w-3xl">
+      <div className="garden-card p-8">
+        <h1 className="page-title mb-8 text-3xl font-bold">✏️ 記録を編集</h1>
 
-      <form action={updateGardenLog} className="space-y-4">
-        <input type="hidden" name="id" value={log.id} />
+        <form action={updateGardenLog} className="space-y-6">
+          <input type="hidden" name="id" value={log.id} />
 
-        <div>
-          <label>タイトル</label>
+          <div>
+            <label>タイトル</label>
 
-          <input
-            name="title"
-            defaultValue={log.title}
-            className="w-full rounded border p-2"
-          />
-        </div>
+            <input type="text" name="title" defaultValue={log.title} />
+          </div>
 
-        <div>
-          <label>本文</label>
+          <div>
+            <label>植物名</label>
 
-          <textarea
-            name="content"
-            defaultValue={log.content}
-            className="w-full rounded border p-2"
-            rows={8}
-          />
-        </div>
+            <input
+              type="text"
+              name="plantName"
+              defaultValue={log.plantName ?? ""}
+            />
+          </div>
 
-        <div>
-          <label>日付</label>
+          <div>
+            <label>記録日</label>
 
-          <input
-            type="date"
-            name="recordDate"
-            defaultValue={log.recordDate.toISOString().split("T")[0]}
-            className="w-full rounded border p-2"
-          />
-        </div>
+            <input
+              type="date"
+              name="recordDate"
+              defaultValue={log.recordDate.toISOString().split("T")[0]}
+            />
+          </div>
 
-        <button className="rounded bg-blue-600 px-5 py-2 text-white">
-          更新
-        </button>
-      </form>
+          <div>
+            <label>内容</label>
+
+            <textarea name="content" rows={8} defaultValue={log.content} />
+          </div>
+
+          <div className="flex gap-3">
+            <button className="button-primary rounded-xl px-6 py-3 font-semibold transition hover:scale-105">
+              更新する
+            </button>
+          </div>
+        </form>
+      </div>
     </main>
   );
 }

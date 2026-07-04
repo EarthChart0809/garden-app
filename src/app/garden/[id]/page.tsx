@@ -12,6 +12,7 @@ type Props = {
 
 export default async function GardenDetail({ params }: Props) {
   await requireAdmin();
+
   const { id } = await params;
 
   const log = await prisma.gardenLog.findUnique({
@@ -20,45 +21,49 @@ export default async function GardenDetail({ params }: Props) {
     },
   });
 
-  if (!log) {
-    notFound();
-  }
+  if (!log) notFound();
 
   return (
-    <main className="mx-auto max-w-3xl p-6">
-      <h1 className="text-3xl font-bold">{log.title}</h1>
+    <main className="mx-auto max-w-4xl">
+      <div className="garden-card p-8">
+        <div className="flex flex-wrap items-start justify-between gap-4">
+          <div>
+            <span className="garden-badge">🌱 {log.plantName}</span>
 
-      <p className="mt-2 text-gray-500">
-        {log.recordDate.toLocaleDateString("ja-JP")}
-      </p>
+            <h1 className="page-title mt-4 text-4xl font-bold">{log.title}</h1>
 
-      <p>
-        植物名：
-        {log.plantName}
-      </p>
+            <p className="mt-3 text-sm text-gray-500">
+              📅 {log.recordDate.toLocaleDateString("ja-JP")}
+            </p>
+          </div>
+        </div>
 
-      <article className="mt-6 whitespace-pre-wrap">{log.content}</article>
+        <hr className="my-8 border-green-100" />
 
-      <div className="mt-8">
-        <Link
-          href={`/garden/${log.id}/edit`}
-          className="rounded bg-blue-600 px-4 py-2 text-white"
-        >
-          編集
-        </Link>
+        <article className="leading-8 whitespace-pre-wrap text-gray-700">
+          {log.content}
+        </article>
+
+        <div className="mt-10 flex gap-3">
+          <Link
+            href={`/garden/${log.id}/edit`}
+            className="button-primary rounded-xl px-6 py-3 font-medium transition hover:scale-105"
+          >
+            ✏️ 編集
+          </Link>
+
+          <form
+            action={async () => {
+              "use server";
+              await deleteGardenLog(log.id);
+            }}
+          >
+            <button className="rounded-xl bg-red-500 px-6 py-3 font-medium text-white transition hover:bg-red-600">
+              🗑 削除
+            </button>
+          </form>
+        </div>
       </div>
-
-      <form
-        action={async () => {
-          "use server";
-
-          await deleteGardenLog(log.id);
-        }}
-      >
-        <button className="ml-3 rounded bg-red-600 px-4 py-2 text-white">
-          削除
-        </button>
-      </form>
     </main>
   );
 }

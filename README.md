@@ -9,7 +9,7 @@ Supabase Auth による認証、Prisma によるデータ管理、Supabase Stora
 
 ## 使用時間
 
-15時間
+17時間
 
 ---
 
